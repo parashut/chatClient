@@ -3,6 +3,8 @@ package sample;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -16,6 +18,12 @@ public class Controller implements Initializable {
 
     @FXML
     Button buttonSend;
+
+    @FXML
+    TextArea textArea;
+
+    @FXML
+    TextField textMessage;
 
     private Session session;
     private WebSocketContainer webSocketContainer;
@@ -47,8 +55,20 @@ public class Controller implements Initializable {
         }
     }
 
+    public String getTextFromTextField(){
+        String text = textMessage.getText();
+        textMessage.clear();
+        return text;
+    }
+
+    @OnMessage
+    public void onMessage(Session session, ByteBuffer byteBuffer){
+        textArea.appendText(new String(byteBuffer.array()) + "\n");
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        buttonSend.setOnMouseClicked(event -> sendMessage("Wiadomość z klienta"));
+        textArea.setEditable(false);
+        buttonSend.setOnMouseClicked(event -> sendMessage(getTextFromTextField()));
     }
 }
