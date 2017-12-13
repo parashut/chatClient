@@ -29,16 +29,7 @@ public class Controller implements Initializable {
     private WebSocketContainer webSocketContainer;
 
     public Controller() {
-        URI uri = URI.create("ws://localhost:8080/chat");
         webSocketContainer = ContainerProvider.getWebSocketContainer();
-
-        try {
-            webSocketContainer.connectToServer(this, uri);
-        } catch (DeploymentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @OnOpen
@@ -70,5 +61,14 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         textArea.setEditable(false);
         buttonSend.setOnMouseClicked(event -> sendMessage(getTextFromTextField()));
+
+        URI uri = URI.create("ws://localhost:8080/chat");
+        try {
+            webSocketContainer.connectToServer(this, uri);
+        } catch (DeploymentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
