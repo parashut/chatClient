@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -59,8 +60,6 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        textArea.setEditable(false);
-        buttonSend.setOnMouseClicked(event -> sendMessage(getTextFromTextField()));
 
         URI uri = URI.create("ws://localhost:8080/chat");
         try {
@@ -70,5 +69,14 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        textArea.setEditable(false);
+        buttonSend.setOnMouseClicked(event -> sendMessage(getTextFromTextField()));
+
+        textMessage.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                sendMessage(getTextFromTextField());
+            }
+        });
     }
 }
