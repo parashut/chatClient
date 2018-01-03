@@ -7,7 +7,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
-import javax.websocket.*;
+
+import javax.websocket.*;;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
